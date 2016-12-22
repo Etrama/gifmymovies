@@ -6,7 +6,8 @@ clip = mpy.VideoFileClip(ui)
 #clip.preview()
 #how to close a clip when it's running in pygame?
 #how to save matplotlib images as well as display them, not necessarily in your hdd, but as an object or sth?
-
+#write code to extract the bass heavy parts of a song, like in let it happen
+#why does write_gif not work with program='imageio'?
 
 cut = lambda i: clip.audio.subclip(i,i+1).to_soundarray(fps=22000)
 volume = lambda array: np.sqrt(((1.0*array)**2).mean())
@@ -33,6 +34,12 @@ final = mpy.concatenate([clip.subclip(max(t-2.5,0),min(t+2.5, clip.duration))
 				 for t in final_times])
 
 ui2 = raw_input("Enter location and name of final clip, eg: d:/finalclip.mp4 ")
-final.to_videofile(ui2)
+final.write_videofile(ui2)
 dispclip = mpy.VideoFileClip(ui2)
-dispclip.preview()
+#dispclip.preview()
+
+print("Converting .mp4 to a .gif file: ")
+ui3 = raw_input("Enter gif file location and name to store, eg:d:/test.gif ")
+dispclip.write_gif(ui3, fps=None, program='ffmpeg',verbose=True, loop=0, dispose=False, colors=None, tempfiles=False)
+#gifclip = mpy.VideoFileClip(ui3)
+#gifclip.preview(), pygame can't handle animated gifs.
